@@ -1,0 +1,8 @@
+jenkins:
+  host: http://jenkins.example.com
+  user: donny
+  token: I@m7h3W4lrU$
+db_connection:
+  host: videaddqprc03
+  db: VideaSuperSnapshot
+repo: /path/to/directory
