@@ -7,7 +7,7 @@
 import unittest
 from click.testing import CliRunner
 
-from ptrello import ptrello
+from ptrello import api
 from ptrello import cli
 
 

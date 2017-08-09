@@ -35,7 +35,7 @@ setup(
     packages=find_packages(include=['ptrello']),
     entry_points={
         'console_scripts': [
-            'ptrello=ptrello.cli:main'
+            'ptr=ptrello.cli:main'
         ]
     },
     include_package_data=True,

@@ -5,8 +5,11 @@ import yaml
 import sys
 import os
 
+
 logger = logging.getLogger("ptrello."+__name__)
-logging.basicConfig(level=logging.DEBUG)
+logger.setLevel("DEBUG")
+#LogLevel = logging.WARNING
+#logging.basicConfig(level=LogLevel)
 
 user_path = os.path.realpath("/etc/")
 user_project_path = os.path.realpath("/etc/ptrello/")
@@ -17,19 +20,27 @@ settings = None
 locations = [os.curdir, user_path, user_project_path, cur_rel_path, cur_abs_path, env_var]
 
 
-def logging_configuration():
+def logging_configuration(config=None):
 
-    config= None
+    if not config:
+        for loc in locations:
+            path = (os.path.join(os.path.join(loc,"ptrello.ini")))
 
-    for loc in locations:
-        path = (os.path.join(os.path.join(loc,"ptrello.ini")))
-        try:
-            if os.path.isfile(path):
-                logging.config.fileConfig(os.path.join(loc,"ptrello.ini")) #, disable_existing_loggers=False
-                logger.debug(str(os.path.exists(loc)) + " folder exists: " + str(os.path.isfile(path)) + " file exists: " + path )
-        except IOError:
-            logger.warning("A log ini file was not found")
-            pass
+            try:
+                if os.path.isfile(path):
+                    logging.config.fileConfig(os.path.join(loc,"ptrello.ini"), disable_existing_loggers=True) #, disable_existing_loggers=False
+
+                    # logger.debug(str(os.path.exists(loc)) + " folder exists: " + str(os.path.isfile(path)) + " file exists: " + path )
+
+            except IOError:
+                logger.warning("A log ini file was not found")
+                logging.basicConfig(level=logging.WARNING)
+                pass
+    else:
+        logging.basicConfig(level=logging.WARNING)
+
+    pass
+
 
 
 def settings_configuration():
@@ -43,7 +54,7 @@ def settings_configuration():
                 with open(path, "r") as f:
 
                     settings = yaml.load(f)
-                    logger.debug(str(os.path.exists(loc)) + " folder exists: " + str(os.path.isfile(path)) + " file exists: " + path)
+                    # logger.debug(str(os.path.exists(loc)) + " folder exists: " + str(os.path.isfile(path)) + " file exists: " + path)
 
                     return settings
         except IOError as e:
@@ -54,6 +65,6 @@ logging_configuration()
 settings = settings_configuration()
 
 if settings is None:
-    raise IOError("Settings.yaml was not found in the follow locations {}".format(locations))
+    raise IOError("ptrello_settings.yaml was not found in the follow locations {}".format(locations))
 
 logger.debug("Settings and logs configured")
