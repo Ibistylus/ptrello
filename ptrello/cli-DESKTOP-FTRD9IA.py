@@ -215,7 +215,6 @@ def get_context_sorted_list(ctx):
 @click.pass_context
 def get_context_filtered_cards(ctx):
     for obj in ctx.obj['trello']:
-        print(obj['filtered_cards'])
         return obj['filtered_cards']
 
 
@@ -245,12 +244,11 @@ def print_context_lists():
 
 def get_context_card_detail(get_comments=False):
 
+    card_dict = {}
     list_of_card_dicts = []
 
     for item in get_context_filtered_cards():
         comments = []
-
-        card_dict = {}
 
         if get_comments:
             comments.extend(reversed(item.get_comments()))
@@ -271,8 +269,7 @@ def get_context_card_detail(get_comments=False):
 
 
 def print_context_card_detail():
-    loc = get_context_card_detail(True)
-    for item in loc:
+    for item in get_context_card_detail(True):
         click.secho(100 * "-", fg='blue')
         click.secho("Name({}): {}".format(item['short_id'], item['name']), fg='green', bold=True)
         click.secho("Path: {} > {}".format(item['board_name'],item['list_name']), fg='yellow')
