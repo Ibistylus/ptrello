@@ -215,7 +215,7 @@ def get_context_sorted_list(ctx):
 @click.pass_context
 def get_context_filtered_cards(ctx):
     for obj in ctx.obj['trello']:
-        print(obj['filtered_cards'])
+        # print(obj['filtered_cards'])
         return obj['filtered_cards']
 
 
@@ -272,17 +272,20 @@ def get_context_card_detail(get_comments=False):
 
 def print_context_card_detail():
     loc = get_context_card_detail(True)
+
     for item in loc:
         click.secho(100 * "-", fg='blue')
-        click.secho("Name({}): {}".format(item['short_id'], item['name']), fg='green', bold=True)
-        click.secho("Path: {} > {}".format(item['board_name'],item['list_name']), fg='yellow')
-        click.secho("Create Date: {} ".format(item['card_created_date']), fg='yellow')
-        click.secho("Due Date: {}".format(item['due_date']), fg='yellow')
-        click.secho("Desc: {}".format(item['description']), fg='yellow')
-        click.secho("Labels: {}".format(item['labels']), fg='yellow')
-        click.secho("Comments:", fg='yellow')
+        click.secho("\n", fg='blue')
+        click.secho("### Name({}): {}".format(item['short_id'], item['name']), fg='green', bold=True, nl="\n")
+        click.secho("Path: {} > {}".format(item['board_name'],item['list_name']), fg='yellow', nl="\n\n")
+        click.secho("Create Date: {} ".format(item['card_created_date']), fg='yellow', nl="\n")
+        click.secho("Due Date: {} ".format(item['due_date']), fg='yellow', nl="\n")
+        click.secho("Desc: {} ".format(item['description']), fg='yellow', nl="\n")
+        click.secho("Labels: {} ".format(item['labels']), fg='yellow', nl="\n")
+        click.secho("Comments: ", fg='yellow')
         for comm in item['comments']:
-            click.secho("{} - {} ".format(comm['date'], comm['data']['text']), fg='yellow')
+            click.secho("{} - {} ".format(comm['date'], comm['data']['text']), fg='yellow', nl="\n")
+        click.secho("\n")
 
 
 def handle_error(err, name=None):
