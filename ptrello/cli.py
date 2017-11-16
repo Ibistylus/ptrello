@@ -6,11 +6,13 @@ import click
 import logging
 from ptrello import api
 from ptrello.core.config import logger
+from peanote.cli import quick_entry
+
 # from ptrello.core.config import settings
 # import inspect
 
 logger = logging.getLogger("ptrello."+__name__)
-
+default_note = "quicknote.txt"
 
 class Config(object):
     l = []
@@ -138,6 +140,9 @@ def add(ctx, args, match_all_lists, board_filter, card_filter):
     api.add_card(list=ctx.obj['trello'][0]['filtered_lists'][0], name=ctx.obj['input_args'][-1], description= description,
                      labels=labels, due_date=due_date)
 
+    quick_entry(default_note, ["trellocardadded"], "{board}.{list}.{name} -- {desc}".format(board=ctx.obj['input_args'][-3] , list=ctx.obj['input_args'][-2] ,name=ctx.obj['input_args'][-1] , desc=description))
+
+
 
 
 @main.command()
@@ -169,15 +174,17 @@ def comment(ctx, args, text, match_all_lists, board_filter, card_filter):
 
     api.add_comment(cards[0], text)
 
+    quick_entry(default_note, ["trellocardcomment"], "{board}.{list}.{name} -- {desc}".format(board=ctx.obj['input_args'][-3] , list=ctx.obj['input_args'][-2] ,name=ctx.obj['input_args'][-1] , desc=description))
+
 
 
 @main.command()
 @click.pass_context
+@click.argument('args', nargs=3, required=False)
 @click.option('--target_list', nargs=2, required=True)
 @click.option('--match_all_lists/--match_intersect_lists', default=False, help='Show all lists, or only those that match')
 @click.option('--card_filter', default='open', help='Card filter (open, closed)')
 @click.option('--board_filter', default='starred', help='Board filter (starred, open, close)')
-@click.argument('args', nargs=3, required=False)
 def move(ctx, args, target_list, match_all_lists, board_filter, card_filter):
 
     try:
@@ -197,6 +204,13 @@ def move(ctx, args, target_list, match_all_lists, board_filter, card_filter):
             if str.lower(yn) == 'y':
                 target_board = ctx.obj['target_ctx'][0]['board']
                 api.move_card(card=c, target_board_id=target_board.id, target_list_id=ctx.obj['target_ctx'][0]['filtered_lists'][0].id)
+
+                quick_entry(default_note, ["trellomoved"],
+                            "{board}.{list}.{name} ".format(board=ctx.obj['input_args'][-3],
+                                                                     list=ctx.obj['input_args'][-2],
+                                                                     name=ctx.obj['input_args'][-1]))
+
+
             else:
                 click.secho("card(s) not moved")
                 return
