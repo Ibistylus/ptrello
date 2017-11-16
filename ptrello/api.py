@@ -62,8 +62,6 @@ def create_trello_client(api_key=None, api_secret=None, token=None):
     return TrelloClient(api_key=api_key, api_secret=api_secret, token=token)
 
 
-
-
 def get_boards(trello_client, board_filter=None, board_name=None):
     """
     Returns boards matching criteria
