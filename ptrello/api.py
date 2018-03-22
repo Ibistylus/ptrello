@@ -2,16 +2,12 @@
 
 """Main module."""
 from trello import TrelloClient, List, Board, Card, Label
-# import shlex
 import logging
 import re
-import sys
 
 from ptrello.core.config import settings
 from ptrello.core.config import logger
 
-# bs = b.get_cards(card_filter="open", filters={'fields': 'name,dueComplete,closed,url,pos,shortUrl,idMembers,idLabels,'})
-# bs = b.get_cards(card_filter="open", filters={'fields':'all', 'limit':10, 'since':'2017-07-02T00:00:00.000Z'})
 
 
 logger = logging.getLogger("ptrello."+__name__)
@@ -68,7 +64,7 @@ def get_boards(trello_client, board_filter=None, board_name=None):
     :param trello_client: TrelloClient object
     :param board_name: optional board name to match
     :param board_filter: types of boards to return
-    :return: 
+    :return:
     """
     all_boards = trello_client.list_boards(board_filter=board_filter)
 
@@ -128,9 +124,9 @@ def get_list_name_for_card(card, trello_lists=None):
 
 def trello_search_cards(partial_name, trello_client=None, filters=None):
     """
-    :param partial_name: 
-    :param trello_client: 
-    :param filters: Eg "name:Something is:open created:10 updated:2" acceptable values 
+    :param partial_name:
+    :param trello_client:
+    :param filters: Eg "name:Something is:open created:10 updated:2" acceptable values
         https://developers.trello.com/v1.0/reference/#organizationsidprefsorginviterestrict
     :return: list of cards
     """
@@ -296,7 +292,8 @@ def print_trello_object(trello_object, verbose=False):
         return r
 
     if verbose:
-        str = " {} -- {} -- {}".format(trello_object.name, trello_object.id, trello_object.desc if hasattr(trello_object, 'desc') else "")
+        str = " {} -- {} -- {}".format(trello_object.name, trello_object.id, trello_object.desc
+        if hasattr(trello_object, 'desc') else "")
     else:
         str = " {}".format(trello_object.name)
 

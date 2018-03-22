@@ -1,0 +1,4 @@
+trello_client:
+    api_key : [ENTER API CLIENT KEY HERE] 
+    api_secret : [ENTER API SECRET HERE]
+    token : [ENTER TOKEN HERE]
