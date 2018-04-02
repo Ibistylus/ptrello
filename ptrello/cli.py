@@ -72,10 +72,6 @@ def card(ctx, args, match_all_lists, board_filter, card_filter):
             populate_context(args,board_filter=board_filter, card_filter=card_filter, show_all_lists=match_all_lists)
 
         print_context_sorted_list()
-        # print(50*'*')
-        # print_context_cards()
-        # print(50*'*')~
-        # print_context_lists()
 
 
     except ValueError as err:
@@ -197,7 +193,7 @@ def move(ctx, args, target_list, match_all_lists, board_filter, card_filter):
 
         if len(c) > 0:
             yn = click.prompt("There are {} cards selected, are you sure you want to move them all?".format(len(c)))
-            if str.lower(yn) == 'y':
+            if yn.lower() == 'y':
                 target_board = ctx.obj['target_ctx'][0]['board']
                 api.move_card(card=c, target_board_id=target_board.id, target_list_id=ctx.obj['target_ctx'][0]['filtered_lists'][0].id)
 
@@ -281,15 +277,15 @@ def print_context_card_detail():
     for item in loc:
         click.secho(100 * "-", fg='blue')
         click.secho("\n", fg='blue')
-        click.secho("### Name({}): {}".format(item['short_id'], item['name']), fg='green', bold=True, nl="\n")
-        click.secho("Path: {} > {}".format(item['board_name'],item['list_name']), fg='yellow', nl="\n\n")
-        click.secho("Create Date: {} ".format(item['card_created_date']), fg='yellow', nl="\n")
-        click.secho("Due Date: {} ".format(item['due_date']), fg='yellow', nl="\n")
-        click.secho("Desc: {} ".format(item['description']), fg='yellow', nl="\n")
-        click.secho("Labels: {} ".format(item['labels']), fg='yellow', nl="\n")
-        click.secho("Comments: ", fg='yellow')
+        click.secho(u"### Name({}): {}".format(item['short_id'], item['name']), fg='green', bold=True, nl="\n")
+        click.secho(u"Path: {} > {}".format(item['board_name'],item['list_name']), fg='yellow', nl="\n\n")
+        click.secho(u"Create Date: {} ".format(item['card_created_date']), fg='yellow', nl="\n")
+        click.secho(u"Due Date: {} ".format(item['due_date']), fg='yellow', nl="\n")
+        click.secho(u"Desc: {} ".format(item['description']), fg='yellow', nl="\n")
+        click.secho(u"Labels: {} ".format(item['labels']), fg='yellow', nl="\n")
+        click.secho(u"Comments: ", fg='yellow')
         for comm in item['comments']:
-            click.secho("{} - {} ".format(comm['date'], comm['data']['text']), fg='yellow', nl="\n")
+            click.secho(u"{} - {} ".format(comm['date'], comm['data']['text']), fg='yellow', nl="\n")
         click.secho("\n")
 
 

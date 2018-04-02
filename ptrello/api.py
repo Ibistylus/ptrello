@@ -5,6 +5,7 @@ from trello import TrelloClient, List, Board, Card, Label
 import logging
 import re
 
+
 from ptrello.core.config import settings
 from ptrello.core.config import logger
 
@@ -292,22 +293,22 @@ def print_trello_object(trello_object, verbose=False):
         return r
 
     if verbose:
-        str = " {} -- {} -- {}".format(trello_object.name, trello_object.id, trello_object.desc
+        str = u" {} -- {} -- {}".format(trello_object.name, trello_object.id, trello_object.desc
         if hasattr(trello_object, 'desc') else "")
     else:
-        str = " {}".format(trello_object.name)
+        str = u" {}".format(trello_object.name)
 
     if type(trello_object) is Board:
-        str = "# " + (str)
+        str = u"# " + (str)
         object_type = 'Board'
     elif type(trello_object) == List:
-        str = "  ## {}".format(str)
+        str = u"  ## {}".format(str)
         object_type = 'List'
     elif type(trello_object) == Card:
-        str = "      * ({}) {}".format(trello_object.short_id, str)
+        str = u"      * ({}) {}".format(trello_object.short_id, str)
         object_type = 'Card'
     elif type(trello_object) == Label:
-        str = "      * ({}) {}".format(trello_object.short_id, str)
+        str = u"      * ({}) {}".format(trello_object.short_id, str)
         object_type = 'Label'
     else:
         str = trello_object.name
@@ -318,7 +319,7 @@ def print_trello_object(trello_object, verbose=False):
 
 def add_card(name, list, description=None, due_date=None, labels=None):
 
-    ls = (str.split(labels))
+    ls = (labels.split())
 
     logger.debug("list passed: {}".format(list))
 
@@ -354,7 +355,7 @@ def convert_label_names_to_labels(list_of_lable_names, list_of_labels):
 
     for l in list_of_labels:
         for il in list_of_lable_names:
-            if str.lower(l.name) == str.lower(il):
+            if (l.name.lower() ) == il.lower():
                 rids.append(l)
 
     return rids
